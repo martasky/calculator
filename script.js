@@ -1,5 +1,6 @@
+"use strict";
 document.querySelector("#calculate").addEventListener("click", clickCalculate);
-let result;
+
 function clickCalculate() {
   const firstNumber = Number(document.querySelector("#firstnumber").value);
   console.log(firstNumber);
@@ -7,45 +8,49 @@ function clickCalculate() {
   console.log(secondNumber);
   const dropDown = document.querySelector("#operator").value;
 
+  const checkbox = document.querySelector("#doround");
+
   // const checkbox = document.querySelector("#decimals").value;
+  let result = 0;
 
   if (dropDown === "add") {
-    result = Number(firstNumber + secondNumber);
-    console.log("does this shit work" + result);
-    const newNumber = document.querySelector("#firstnumber");
-    newNumber.value = result;
-    let list = document.createElement("li");
-    document.querySelector("#results").append(list);
-    list.textContent = result;
+    result = firstNumber + secondNumber;
   } else if (dropDown === "sub") {
     result = firstNumber - secondNumber;
-    console.log(result);
-    const newNumber = document.querySelector("#firstnumber");
-    newNumber.value = result;
   } else if (dropDown === "mul") {
     result = firstNumber * secondNumber;
-    console.log(result);
-    const newNumber = document.querySelector("#firstnumber");
-    newNumber.value = result;
-  } else result = firstNumber / secondNumber;
+  } else {
+    result = firstNumber / secondNumber;
+  }
+  if (checkbox.checked === true) {
+    let digits = document.querySelector("#decimals").value;
+    result = myRound(result, digits);
+  }
   console.log(result);
   const newNumber = document.querySelector("#firstnumber");
   newNumber.value = result;
+  let list = document.createElement("li");
+  list.textContent = result;
+  document.querySelector("#results").appendChild(list);
 }
-//   } else if (dropDown.value === "sub") {
-//     result = firstNumber - secondNumber;
-//     console.log(result);
-//   } else if (dropDown.value === "mul") {
-//     result = firstNumber * secondNumber;
-//     console.log(result);
-//   } else dropDown.value === "div";
 
-//   result = firstNumber / secondNumber;
+function myRound(number, digits) {
+  let base = 1;
+  let i = 0;
+  for (i = 0; i < digits; i++) {
+    base = base * 10;
+  }
+  return Math.round(base * number) / base;
+}
 
 document.querySelector("#clear").addEventListener("click", clearResults);
 
-// if (checkbox.checked) {
-//   if (checkbox.value === 1) {
-//   }
-// }
-function clearResults() {}
+function clearResults() {
+  document.querySelector("#firstnumber").value = "";
+  document.querySelector("#secondnumber").value = "";
+  document.querySelector("#doround").checked = false;
+  let nodes = document.querySelectorAll("li");
+  for (var i = 0; i < nodes.length; i++) {
+    nodes[i].parentNode.removeChild(nodes[i]);
+  }
+}
