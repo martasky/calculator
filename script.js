@@ -24,7 +24,8 @@ function clickCalculate() {
   }
   if (checkbox.checked === true) {
     let digits = document.querySelector("#decimals").value;
-    result = myRound(result, digits);
+    result = result.toFixed(digits);
+    // result = myRound(result, digits);
   }
   console.log(result);
   const newNumber = document.querySelector("#firstnumber");
@@ -34,23 +35,24 @@ function clickCalculate() {
   document.querySelector("#results").appendChild(list);
 }
 
-function myRound(number, digits) {
-  let base = 1;
+/* function myRound(number, digits) {
+    let base = 1;
   let i = 0;
   for (i = 0; i < digits; i++) {
     base = base * 10;
   }
   return Math.round(base * number) / base;
 }
-
+ */
 document.querySelector("#clear").addEventListener("click", clearResults);
 
 function clearResults() {
   document.querySelector("#firstnumber").value = "";
   document.querySelector("#secondnumber").value = "";
   document.querySelector("#doround").checked = false;
-  let nodes = document.querySelectorAll("li");
+  document.querySelector("#results").innerHTML = "";
+  /*  let nodes = document.querySelectorAll("li");
   for (var i = 0; i < nodes.length; i++) {
-    nodes[i].parentNode.removeChild(nodes[i]);
-  }
+    nodes[i].parentNode.removeChild(nodes[i]); 
+  }*/
 }
